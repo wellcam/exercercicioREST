@@ -17,10 +17,16 @@ public class TopicosController {
 	private TopicoRepository topicoRepository;
 
 	@RequestMapping("/topicos")
-	public List<TopicoDTO> lista() {
+	public List<TopicoDTO> lista(String nomeCurso) {
 		
-		List <Topico> topicos = topicoRepository.findAll();
-		return TopicoDTO.convert(topicos);
+		if(nomeCurso == null) {
+			List <Topico> topicos = topicoRepository.findAll();
+			return TopicoDTO.convert(topicos);
+		} else {
+			List <Topico> topicos = topicoRepository.findByCursoNome(nomeCurso);
+			return TopicoDTO.convert(topicos);
+		}
+		
 	}
 	
 }
