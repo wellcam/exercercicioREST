@@ -38,7 +38,5 @@ public class TopicoDTO {
 		//ESTUDAR MAIS ISSO
 		return topicos.stream().map(TopicoDTO::new).collect(Collectors.toList());
 	}
-	
-	
 
 }
