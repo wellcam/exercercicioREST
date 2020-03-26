@@ -3,10 +3,12 @@ package br.com.alura.forum.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +48,7 @@ public class TopicosController {
 	}
 	
 	@PostMapping
+	@Transactional
 	public ResponseEntity<TopicoDTO> cadastrar(@RequestBody @Valid TopicoForm topicoForm, UriComponentsBuilder uriComponentsBuilder ) {
 		Topico topico = topicoForm.convert(cursoRepository);
 		topicoRepository.save(topico);
@@ -59,6 +62,14 @@ public class TopicosController {
 	public DetalhesTopicoDTO detalhar(@PathVariable Long id) {
 		return new DetalhesTopicoDTO(topicoRepository.getOne(id));
 		
+	}
+	
+	@DeleteMapping("/{id}")
+	@Transactional
+	public ResponseEntity<?> remover(@PathVariable Long id){
+		topicoRepository.deleteById(id);
+		
+		return ResponseEntity.ok().build();
 	}
 	
 }
